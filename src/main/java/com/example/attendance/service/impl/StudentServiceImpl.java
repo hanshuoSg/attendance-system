@@ -1,39 +1,37 @@
 package com.example.attendance.service.impl;
-
-import com.example.attendance.Student;
-import com.example.attendance.dao.StudentDao;
+import com.example.attendance.entity.Student;
+import com.example.attendance.repository.StudentRepository;
 import com.example.attendance.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    private StudentDao studentDao;
+    private StudentRepository studentRepository;
 
     @Override
-    public boolean addStudent(Student student) {
-        if (student.getStudentId() == null || student.getStudentId().trim().isEmpty()) {
-            throw new IllegalArgumentException("学号不能为空");
-        }
-        if (student.getName() == null || student.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("姓名不能为空");
-        }
-        if (student.getClassName() == null || student.getClassName().trim().isEmpty()) {
-            throw new IllegalArgumentException("班级不能为空");
-        }
-
-        Student existing = studentDao.findByStudentId(student.getStudentId());
-        if (existing != null) {
-            throw new IllegalArgumentException("学号 " + student.getStudentId() + " 已存在");
-        }
-
-        return studentDao.insert(student) > 0;
+    public Student save(Student student) {
+        return studentRepository.save(student);
     }
 
     @Override
-    public Student findByStudentId(String studentId) {
-        return studentDao.findByStudentId(studentId);
+    public Student findById(Long id) {
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        return optionalStudent.orElse(null);
+    }
+
+    @Override
+    public List<Student> findAll() {
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        studentRepository.deleteById(id);
     }
 }

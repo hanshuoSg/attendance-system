@@ -1,39 +1,52 @@
 package com.example.attendance;
 
-public class Result<T> {
-    private Integer code;    // 状态码：200成功，400失败等
-    private String message;  // 提示信息
-    private T data;          // 返回的数据
+public class Result {
+    private Integer code;
+    private String message;
+    private Object data;
 
-    // 构造方法
-    public Result(Integer code, String message, T data) {
+    public Result() {
+    }
+
+    public Result(Integer code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    // 成功方法（带数据）
-    public static <T> Result<T> success(T data) {
-        return new Result<>(200, "success", data);
+    public static Result success() {
+        return new Result(200, "success", null);
     }
 
-    // 成功方法（只返回成功消息）
-    public static <T> Result<T> success(String message, T data) {
-        return new Result<>(200, message, data);
+    public static Result success(Object data) {
+        return new Result(200, "success", data);
     }
 
-    // 失败方法
-    public static <T> Result<T> error(String message) {
-        return new Result<>(400, message, null);
+    public static Result error(String message) {
+        return new Result(500, message, null);
     }
 
-    // getter和setter方法
-    public Integer getCode() { return code; }
-    public void setCode(Integer code) { this.code = code; }
+    public Integer getCode() {
+        return code;
+    }
 
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 
-    public T getData() { return data; }
-    public void setData(T data) { this.data = data; }
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }
